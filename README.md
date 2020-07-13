@@ -12,7 +12,7 @@ As the ESP8266 only has < 3K of dynamic memory to hold variables and programs be
 You need to use the mpy-cross precompiler to convert the source code st7735.py to the byte-code st7735.mpy
 Then copy the st7735.mpy file to the ESP8266's flash memory through a program that can interact with micropython repl. e.g. rshell or mpfshell or ampy.
 
-To use the library, 
+To use the library,
 You just need these lines of codes to initialze the spi and tft.
 Note as ESP8266 has only limited no. of pins, you may want to omit CS  pin to save 1 pin for your other functions. To do that  tie CS pin of your Tft to ground, then omit the cs paramater in the function call)
 
@@ -23,12 +23,13 @@ import time
 import math
 #hardware SPI, HSPI
 spi = SPI(1, baudrate=8000000, polarity=0, phase=0)
-# dc=2, rst=16, cs=0
+# dc=16, rst=None, cs=None
 # full function call to include cs pin
-# tft=TFT(spi,2,16,0)
+# tft=TFT(spi,16)
 
 # omit cs to save 1 pin for ESP8266, tie CS of the display to ground.
-tft=TFT(spi,2,16)
+# tie reset of TFT to reset of ESP8266 to save another pin
+tft=TFT(spi,16)
 tft.init_7735(tft.GREENTAB80x160)
 # clear the screen
 tft.fill(TFT.BLACK)
@@ -52,7 +53,7 @@ tabcolor
   REDTAB80x160    = 0x7 # 80x160 0.96 inch, start col 24, start row 0, rgb
   BLUETAB         = 0xB # 128x160 , start col 2, start row 1, rgb
 
-If graphicstest.py doesn't work correctly, or misaligned,  try replaceing with another tabcolor above. 
+If graphicstest.py doesn't work correctly, or misaligned,  try replaceing with another tabcolor above.
 
 This version is for micropython-esp8266.
 
@@ -60,14 +61,14 @@ A font file is necessary for displaying text (some font files are in [GuyCarver'
 
 Text nowrap option added(default: nowrap=False).
 
-Pin connections from ST7735 LCD to the ESP8266 
+Pin connections from ST7735 LCD to the ESP8266
 
-LCD |ESP32-DevKitC
+LCD |ESP8266
 ----|----
 BLK| N.C. or through a resistor to 3V3 to adjust brightness o ruse PWM to control brightness
-CS  |IO0 (or connect to GND to save 1 pin)
+CS  |connect to GND
 DC  |IO16(DC)
-RES |IO16
+RES |connect to Reset
 SDA |IO13(MOSI)
 SCK |IO14(CLK)
 VCC |3V3

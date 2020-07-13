@@ -113,7 +113,7 @@ class TFT(object) :
     '''Create a 565 rgb TFTColor value'''
     return TFTColor(aR, aG, aB)
 
-  def __init__( self, spi, aDC, aReset, aCS=None) :
+  def __init__( self, spi, aDC, aReset=None, aCS=None) :
     """aLoc SPI pin location is either 1 for 'X' or 2 for 'Y'.
        aDC is the DC pin and aReset is the reset pin."""
     self.tabcolor = 0 # default
@@ -122,7 +122,12 @@ class TFT(object) :
     self.rotate = 0                    #Vertical with top toward pins.
     self._rgb = True                   #color order of rgb.
     self.dc  = machine.Pin(aDC, machine.Pin.OUT)
-    self.reset = machine.Pin(aReset, machine.Pin.OUT)
+
+    if aReset == None :
+        self.useReset = False
+    else :
+        self.useReset = True
+        self.reset = machine.Pin(aReset, machine.Pin.OUT)
     if aCS == None :
         self.useCS = False
     else :
@@ -512,11 +517,13 @@ class TFT(object) :
   def _reset( self ) :
     '''Reset the device.'''
     self.dc(0)
-    self.reset(1)
-    time.sleep_us(500)
-    self.reset(0)
-    time.sleep_us(500)
-    self.reset(1)
+    if self.useReset :
+        self.reset(1)
+        time.sleep_us(500)
+        self.reset(0)
+        time.sleep_us(500)
+        self.reset(1)
+
     time.sleep_us(500)
 
   def init_7735 ( self, Tabcolor) :

@@ -7,7 +7,7 @@ import math
 spi = SPI(1, baudrate=8000000, polarity=0, phase=0)
 # dc, rst, cs
 # tft=TFT(spi,2,16,0)
-tft=TFT(spi,2,16)
+tft=TFT(spi,16)
 tft.init_7735(tft.GREENTAB80x160)
 
 def testlines(color):

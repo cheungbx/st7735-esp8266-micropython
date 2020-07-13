@@ -5,9 +5,9 @@ import time
 import math
 #hardware SPI, HSPI
 spi = SPI(1, baudrate=8000000, polarity=0, phase=0)
-
+# dc, rst, cs
 tft=TFT(spi,16)
-tft.init_7735(tft.GREENTAB128x128)
+tft.init_7735(tft.GREENTAB80x160)
 
 def testlines(color):
     tft.fill(TFT.BLACK)
