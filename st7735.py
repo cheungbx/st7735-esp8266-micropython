@@ -117,10 +117,10 @@ class TFT(object) :
     """aLoc SPI pin location is either 1 for 'X' or 2 for 'Y'.
        aDC is the DC pin and aReset is the reset pin."""
     self.tabcolor = 0 # default
-    self._size = (128,160)
-    self._offset = (0, 0)
-    self.rotate = 0                    #Vertical with top toward pins.
-    self._rgb = True                   #color order of rgb.
+    self._size = (128,128)
+    self.rotate = 2                    #Vertical with top toward pins.
+    self._offset=(2,3)
+    self._rgb = False                   #color order of rgb.
     self.dc  = machine.Pin(aDC, machine.Pin.OUT)
 
     if aReset == None :
